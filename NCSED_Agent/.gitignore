@@ -1,0 +1,18 @@
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+.env
+*.db
+*.sqlite3
+.ipynb_checkpoints/
+.pytest_cache/
+.streamlit/secrets.toml
+
+# Артефакты работы системы: воспроизводятся запуском, в гит не кладём
+runs/
+sandbox_workdir/
+qdrant_storage/
+
+# Большие данные. Реестр (метаданные) — версионируем, сырьё — нет.
+data

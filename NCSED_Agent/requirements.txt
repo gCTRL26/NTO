@@ -1,0 +1,36 @@
+# Версии зафиксируем через pip freeze после первой успешной сборки —
+# ТЗ требует воспроизводимости, а плавающие версии её ломают.
+
+# Оркестрация
+langgraph
+langgraph-checkpoint-sqlite
+langchain-core
+
+# Провайдеры LLM (два адаптера — см. docs/adr/002)
+langchain-openai
+langchain-ollama
+
+# Контракты и конфигурация
+pydantic
+pydantic-settings
+python-dotenv
+
+# Поиск: вектора + лексика + реранкер
+qdrant-client
+sentence-transformers
+rank-bm25
+
+# Работа с данными (шаг 7 — только детерминированный код)
+pandas
+pyarrow
+openpyxl
+requests
+
+# Интерфейс
+streamlit
+
+# Наблюдаемость
+structlog
+
+# Тесты и оценка
+pytest
