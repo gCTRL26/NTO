@@ -126,7 +126,9 @@ def to_card(code: str, meta: dict, facts: FileFacts) -> DatasetCard:
         source="WorldBank",
         name=name,
         description=description,
-        # unit пуст во всех 29 470 записях, а угадывать из названия — врать. См. долг в ADR.
+        # unit пуст во всех 29 470 записях, угадывать из названия ненадёжно.
+        # periodicity выводится из типа колонки date, но её пока не считает scan_file.
+        # Оба — долги Д1 и Д2 в docs/data-notes.md.
         unit=None,
         periodicity=None,
         theme=theme,
