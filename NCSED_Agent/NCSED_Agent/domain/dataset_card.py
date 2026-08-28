@@ -24,3 +24,6 @@ class DatasetCard(BaseModel):
     filepath: str | None
     publisher: str | None
     measurements: list[str] | None
+    # Имя нейтральное: у World Bank это страны, у Росстата — регионы РФ.
+    # Совпадает с полем в FileFacts, откуда значение и приходит.
+    n_geo_units: int | None
