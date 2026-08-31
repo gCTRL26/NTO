@@ -19,6 +19,7 @@ python-dotenv
 qdrant-client
 sentence-transformers
 rank-bm25
+nltk  # только SnowballStemmer, корпуса скачивать не нужно
 
 # Работа с данными (шаг 7 — только детерминированный код)
 pandas

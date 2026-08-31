@@ -22,6 +22,12 @@ REGISTRY_PATH = Path(__file__).resolve().parents[2] / "data" / "registry" / "car
 SOURCES: dict[str, object] = {"wb": worldbank, "fedstat": fedstat}
 
 
+def load_cards(path: Path = REGISTRY_PATH) -> list[DatasetCard]:
+    """Читает готовый каталог. Обратная операция к main(), поэтому живёт здесь же."""
+    with open(path, encoding="utf-8") as f:
+        return [DatasetCard.model_validate_json(line) for line in f]
+
+
 def get_facts(name: str, source, refresh: bool = False) -> dict[str, FileFacts]:
     """Возвращает факты по файлам источника, сканируя их только при необходимости.
 
