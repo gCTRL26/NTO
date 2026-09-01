@@ -27,6 +27,7 @@ CYRILLIC_RE = re.compile(r"[а-яё]")
 _ru = SnowballStemmer("russian")
 _en = SnowballStemmer("english")
 
+
 # Каталог двуязычный: русские названия Росстата и английские World Bank.
 # Стеммер выбирается по наличию кириллицы в самом слове, а не по языку документа.
 #
@@ -73,12 +74,16 @@ class BM25Index:
 
         scores = self._bm25.get_scores(tokens)
         # argpartition находит k наибольших без полной сортировки 36 800 значений.
-        top = np.argpartition(scores, -k)[-k:] if len(scores) > k else np.arange(len(scores))
+        top = (
+            np.argpartition(scores, -k)[-k:]
+            if len(scores) > k
+            else np.arange(len(scores))
+        )
         top = top[np.argsort(-scores[top])]
         return [(self.cards[i], float(scores[i])) for i in top if scores[i] > 0]
 
 
-def _main() -> None:
+def main() -> None:
     from .build import load_cards
 
     query = " ".join(sys.argv[1:])
@@ -90,8 +95,10 @@ def _main() -> None:
     index = BM25Index(cards)
     for card, score in index.search(query):
         print(f"{score:6.2f}  {card.key:22} {card.name[:60]}")
-        print(f"        {card.status} | {card.real_year_from}-{card.real_year_to} | {card.level}")
+        print(
+            f"        {card.status} | {card.real_year_from}-{card.real_year_to} | {card.level}"
+        )
 
 
 if __name__ == "__main__":
-    _main()
+    main()

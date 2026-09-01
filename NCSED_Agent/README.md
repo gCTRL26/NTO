@@ -64,6 +64,15 @@ docs/adr/       архитектурные решения и их обоснов
 а не взяты из README источников: те в нескольких местах не соответствуют
 действительности.
 
+## Качество
+
+Замеры качества поиска с историей — [docs/eval-log.md](docs/eval-log.md).
+Тест-набор: `evaluation/cases/search.json`, прогон:
+
+```bash
+python -m evaluation.retrieval
+```
+
 ## Запуск
 
 ```bash
