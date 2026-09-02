@@ -95,6 +95,17 @@ def main() -> None:
 
     run(BM25Index(cards), cases, label="BM25 (лексический поиск)")
 
+    # Векторный индекс подключаем, только если он построен: сборка занимает
+    # около часа, и требовать её ради прогона BM25 неправильно.
+    from NCSED_Agent.catalog.vectors import COLLECTION, VectorIndex
+
+    index = VectorIndex(cards)
+    if index.client.collection_exists(COLLECTION):
+        run(index, cases, label="Векторный поиск (multilingual-e5-base)")
+    else:
+        print("\nВекторный индекс не построен, пропускаю."
+              " Собрать: python -m NCSED_Agent.catalog.vectors build")
+
 
 if __name__ == "__main__":
     main()
