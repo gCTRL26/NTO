@@ -93,18 +93,21 @@ def main() -> None:
     validate_cases(cases, {c.key for c in cards})
     print(f"каталог: {len(cards)} карточек, тест-набор: {len(cases)} кейсов")
 
-    run(BM25Index(cards), cases, label="BM25 (лексический поиск)")
-
     # Векторный индекс подключаем, только если он построен: сборка занимает
     # около часа, и требовать её ради прогона BM25 неправильно.
+    from NCSED_Agent.catalog.hybrid import HybridIndex
     from NCSED_Agent.catalog.vectors import COLLECTION, VectorIndex
 
-    index = VectorIndex(cards)
-    if index.client.collection_exists(COLLECTION):
-        run(index, cases, label="Векторный поиск (multilingual-e5-base)")
-    else:
-        print("\nВекторный индекс не построен, пропускаю."
-              " Собрать: python -m NCSED_Agent.catalog.vectors build")
+    bm25 = BM25Index(cards)
+    run(bm25, cases, label="BM25 (лексический поиск)")
+
+    with VectorIndex(cards) as vectors:
+        if not vectors.client.collection_exists(COLLECTION):
+            print("\nВекторный индекс не построен, пропускаю."
+                  " Собрать: python -m NCSED_Agent.catalog.vectors build")
+            return
+        run(vectors, cases, label="Векторный поиск (multilingual-e5-base)")
+        run(HybridIndex(bm25, vectors), cases, label="Гибрид (RRF: BM25 + вектор)")
 
 
 if __name__ == "__main__":
